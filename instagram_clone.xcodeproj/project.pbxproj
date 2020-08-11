@@ -22,6 +22,7 @@
 		28DBD2A724E288E3004D805A /* UploadPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBD2A624E288E3004D805A /* UploadPostVC.swift */; };
 		28DBD2A924E28906004D805A /* NotificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBD2A824E28906004D805A /* NotificationVC.swift */; };
 		28DBD2AB24E28919004D805A /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBD2AA24E28919004D805A /* UserProfileVC.swift */; };
+		28DBD2AD24E29AED004D805A /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBD2AC24E29AED004D805A /* UserProfileHeader.swift */; };
 		72C48EB34F2DAC772562C12B /* Pods_instagram_clone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B65375246AC90268DA4C199 /* Pods_instagram_clone.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		28DBD2A624E288E3004D805A /* UploadPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostVC.swift; sourceTree = "<group>"; };
 		28DBD2A824E28906004D805A /* NotificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationVC.swift; sourceTree = "<group>"; };
 		28DBD2AA24E28919004D805A /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
+		28DBD2AC24E29AED004D805A /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		320BADD60B2F742C6CE8EFB6 /* Pods-instagram_clone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagram_clone.debug.xcconfig"; path = "Target Support Files/Pods-instagram_clone/Pods-instagram_clone.debug.xcconfig"; sourceTree = "<group>"; };
 		5B65375246AC90268DA4C199 /* Pods_instagram_clone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_instagram_clone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC7E8F4B212E8BC41E050993 /* Pods-instagram_clone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagram_clone.release.xcconfig"; path = "Target Support Files/Pods-instagram_clone/Pods-instagram_clone.release.xcconfig"; sourceTree = "<group>"; };
@@ -148,11 +150,12 @@
 			isa = PBXGroup;
 			children = (
 				28DBD29E24E28617004D805A /* MainTabVC.swift */,
+				28DBD2AA24E28919004D805A /* UserProfileVC.swift */,
+				28DBD2AC24E29AED004D805A /* UserProfileHeader.swift */,
 				28DBD2A024E28894004D805A /* FeedVC.swift */,
 				28DBD2A224E288B2004D805A /* SearchVC.swift */,
 				28DBD2A624E288E3004D805A /* UploadPostVC.swift */,
 				28DBD2A824E28906004D805A /* NotificationVC.swift */,
-				28DBD2AA24E28919004D805A /* UserProfileVC.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28DBD2AD24E29AED004D805A /* UserProfileHeader.swift in Sources */,
 				28DBD2A124E28894004D805A /* FeedVC.swift in Sources */,
 				28DBD2A924E28906004D805A /* NotificationVC.swift in Sources */,
 				28DBD2A724E288E3004D805A /* UploadPostVC.swift in Sources */,
