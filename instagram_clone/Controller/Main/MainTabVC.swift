@@ -9,15 +9,19 @@
 /*** Configure UITabBarController Programmatically ***/
 
 import UIKit
+import FirebaseAuth
 
 class MainTabVC: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         // delegate
         self.delegate = self
         configureViewControllers()
+   
+        // user validation
+        checkIfUserIsLoggedIn()
     }
     
     // function to create view controllers that exist within tab bar controller
@@ -58,6 +62,20 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
         
         //return nav controller
         return navController
+    }
+    
+    func checkIfUserIsLoggedIn() {
+        
+        if Auth.auth().currentUser == nil {
+            print("user not logged in")
+            DispatchQueue.main.async {
+                let loginVC = LoginVC()
+                let navController = UINavigationController(rootViewController: loginVC)
+                navController.modalPresentationStyle = .overCurrentContext
+                self.present(navController, animated: false, completion: nil)
+            }
+        }
+        
     }
 
 }

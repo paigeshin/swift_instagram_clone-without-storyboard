@@ -181,9 +181,14 @@ class SignUpVC: UIViewController {
                             print("Database error: \(error.localizedDescription)")
                         }
                         print("Successfully created user and saved in the database")
-                        let mainTabVC = MainTabVC()
-                        mainTabVC.modalPresentationStyle = .overCurrentContext
-                        self.present(mainTabVC, animated: true, completion: nil)
+                        
+                        //life cycle, prevent viewControllers from stacking
+                        //Although it's deprecated, if you are building application without storyboard, this api is still valid
+                        guard let mainTabVC = UIApplication.shared.keyWindow?.rootViewController as? MainTabVC else { return }
+                        // configure view controllers in mainTabVC
+                        mainTabVC.configureViewControllers()
+                        self.dismiss(animated: true, completion: nil)
+                        
                     }
                 }
                 

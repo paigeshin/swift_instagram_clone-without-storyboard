@@ -16,11 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        FirebaseApp.configure()
+        
         //ios 11, LoginVC or setting up project without storyboard
         window = UIWindow()
-        window?.rootViewController = UINavigationController(rootViewController: LoginVC())
+//        window?.rootViewController = UINavigationController(rootViewController: LoginVC())
+        window?.rootViewController = MainTabVC()
         window?.makeKeyAndVisible()
-        FirebaseApp.configure()
+        
         return true
     }
 
