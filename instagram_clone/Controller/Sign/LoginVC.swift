@@ -138,6 +138,11 @@ class LoginVC: UIViewController {
                 return
             }
             print("login is successful")
+            
+            let mainTabVC = MainTabVC()
+            mainTabVC.modalPresentationStyle = .overCurrentContext
+            self.present(mainTabVC, animated: true, completion: nil)
+            
         }
         
     }

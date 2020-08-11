@@ -14,9 +14,10 @@ class MainTabVC: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // delegate
         self.delegate = self
+        configureViewControllers()
     }
     
     // function to create view controllers that exist within tab bar controller

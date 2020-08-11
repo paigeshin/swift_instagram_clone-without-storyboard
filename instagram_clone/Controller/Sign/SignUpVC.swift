@@ -83,10 +83,10 @@ class SignUpVC: UIViewController {
             ]
         )
         attributedTitle.append(NSAttributedString(string: "Sign In", attributes:
-                [
-                    NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14),
-                    NSAttributedString.Key.foregroundColor: UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
-                ]
+            [
+                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14),
+                NSAttributedString.Key.foregroundColor: UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+            ]
             )
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -109,11 +109,11 @@ class SignUpVC: UIViewController {
     
     func configureViewComponents() {
         let stackView = UIStackView(arrangedSubviews: [
-                emailTextField,
-                fullNameTextField,
-                userNameTextField,
-                passwordTextField,
-                signUpButton
+            emailTextField,
+            fullNameTextField,
+            userNameTextField,
+            passwordTextField,
+            signUpButton
             ]
         )
         stackView.axis = .vertical
@@ -150,7 +150,7 @@ class SignUpVC: UIViewController {
             
             //upload data
             guard let uploadData = profileImage.jpegData(compressionQuality: 0.3) else { return }
-                
+            
             // place image in firebase storage
             let filename = NSUUID().uuidString
             let ref = Storage.storage().reference().child("profile_images").child(filename)
@@ -168,22 +168,25 @@ class SignUpVC: UIViewController {
                 ref.downloadURL { (url, error) in
                     guard let uid = result?.user.uid else { return }
                     guard let url = url else { return }
-                       let dictionaryValues: [String: Any] = [
-                           "name": fullName,
-                           "username": userName,
-                           "profileImageUrl": url.absoluteString,
-                       ]
-                       let values = [uid: dictionaryValues]
-                       print("values to be saved: \(values)")
-                       //save user info to database
-                       Database.database().reference().child("users").updateChildValues(values) { (error, ref) in
-                           if let error = error {
-                               print("Database error: \(error.localizedDescription)")
-                           }
-                           print("Successfully created user and saved in the database")
-                       }
+                    let dictionaryValues: [String: Any] = [
+                        "name": fullName,
+                        "username": userName,
+                        "profileImageUrl": url.absoluteString,
+                    ]
+                    let values = [uid: dictionaryValues]
+                    print("values to be saved: \(values)")
+                    //save user info to database
+                    Database.database().reference().child("users").updateChildValues(values) { (error, ref) in
+                        if let error = error {
+                            print("Database error: \(error.localizedDescription)")
+                        }
+                        print("Successfully created user and saved in the database")
+                        let mainTabVC = MainTabVC()
+                        mainTabVC.modalPresentationStyle = .overCurrentContext
+                        self.present(mainTabVC, animated: true, completion: nil)
+                    }
                 }
-
+                
             }
             
             // Success
