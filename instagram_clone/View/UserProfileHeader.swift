@@ -217,10 +217,20 @@ class UserProfileHeader: UICollectionViewCell {
             
         } else {
             
-            // configure button as follow button
-            editProfileFollowButton.setTitle("Follow", for: .normal)
             editProfileFollowButton.setTitleColor(.white, for: .normal)
             editProfileFollowButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+            
+            user.checkIfUserIsFollowed(completion: {(followed) in
+                
+                print("is followed?: \(followed)")
+                
+                if followed {
+                    self.editProfileFollowButton.setTitle("Following", for: .normal)
+                } else {
+                    self.editProfileFollowButton.setTitle("Follow", for: .normal)
+                }
+                
+            })
             
         }
         
