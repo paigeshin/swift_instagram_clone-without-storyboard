@@ -10,8 +10,36 @@
 /*** Set UIColelctionViewController Header with `UICollectionViewCell` ***/
 
 import UIKit
+import FirebaseAuth
+
+protocol UserProfileHeaderDelegate {
+    
+    func handleFollowersTapped(for header: UserProfileHeader)
+    func handleFollowingTapped(for header: UserProfileHeader)
+    func handleEditProfileFollow(for header: UserProfileHeader)
+    func setUserStatus(for header: UserProfileHeader)
+    
+}
 
 class UserProfileHeader: UICollectionViewCell {
+    
+    var delegate: UserProfileHeaderDelegate?
+    
+    var user: User? {
+        didSet {
+            
+            // configure edit profile button
+            configureEditProfileFollowButton()
+            
+            // set user stats
+            setUserStats(for: user)
+            
+            let fullName = user?.name
+            nameLabel.text = fullName
+            guard let profileImageUrl = user?.profileImageUrl else { return }
+            profileImageView.loadImage(with: profileImageUrl)
+        }
+    }
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -48,7 +76,7 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
  
-    let followersLabel: UILabel = {
+    lazy var followersLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -65,10 +93,14 @@ class UserProfileHeader: UICollectionViewCell {
             )
         )
         label.attributedText = attributedText
+        let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTapped))
+        followTap.numberOfTapsRequired = 1
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(followTap)
         return label
     }()
     
-    let followingLabel: UILabel = {
+    lazy var followingLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -85,17 +117,22 @@ class UserProfileHeader: UICollectionViewCell {
             )
         )
         label.attributedText = attributedText
+        let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
+        followTap.numberOfTapsRequired = 1
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(followTap)
         return label
     }()
     
-    let editProfileButton: UIButton = {
+    lazy var editProfileFollowButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Profile", for: .normal)
+        button.setTitle("Loading", for: .normal)
         button.layer.cornerRadius = 5
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 0.5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(handleEditProfileFollow), for: .touchUpInside)
         return button
     }()
     
@@ -129,8 +166,8 @@ class UserProfileHeader: UICollectionViewCell {
         addSubview(nameLabel)
         nameLabel.anchor(top: profileImageView.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 12, paddingRight: 0, width: 0, height: 0)
         configureUserStats()
-        addSubview(editProfileButton)
-        editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: self.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom:  0, paddingRight: 12, width: 0, height: 30)
+        addSubview(editProfileFollowButton)
+        editProfileFollowButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: self.rightAnchor, paddingTop: 12, paddingLeft: 0, paddingBottom:  0, paddingRight: 12, width: 0, height: 30)
         configureBottomToolBar()
     }
     
@@ -159,14 +196,61 @@ class UserProfileHeader: UICollectionViewCell {
         addSubview(topDividerView) //라인
         addSubview(bottomDividerView) //라인
         
+        stackView.isUserInteractionEnabled = true
         stackView.anchor(top: nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         topDividerView.anchor(top: stackView.topAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         bottomDividerView.anchor(top: nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         
     }
     
+    //현재 유저의 profile이라면 edit을 보여준다.
+    //다른 유저의 profile이라면 follow를 보여준다.
+    func configureEditProfileFollowButton() {
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        guard let user = self.user else { return }
+        
+        if currentUid == user.uid {
+            
+            // configure button as edit profile
+            editProfileFollowButton.setTitle("Edit Profile", for: .normal)
+            
+        } else {
+            
+            // configure button as follow button
+            editProfileFollowButton.setTitle("Follow", for: .normal)
+            editProfileFollowButton.setTitleColor(.white, for: .normal)
+            editProfileFollowButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+            
+        }
+        
+    }
+    
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+//MARK: - Following logic, don't add your logic on Cell, All logics should be controlled in View Controller
+extension UserProfileHeader {
+
+    @objc func handleFollowersTapped() {
+        delegate?.handleFollowersTapped(for: self)
+    }
+    
+    @objc func handleFollowingTapped() {
+        delegate?.handleFollowingTapped(for: self)
+    }
+    
+    @objc func handleEditProfileFollow() {
+        //controller에서 follower following logic 정해줌.
+        delegate?.handleEditProfileFollow(for: self)
+    }
+    
+    func setUserStats(for user: User?) {
+        delegate?.setUserStatus(for: self)
     }
     
 }

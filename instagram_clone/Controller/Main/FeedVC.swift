@@ -67,8 +67,8 @@ class FeedVC: UICollectionViewController {
                 let navController = UINavigationController(rootViewController: loginVC)
                 navController.modalPresentationStyle = .overCurrentContext
                 self.tabBarController?.tabBar.isHidden = true
-                self.present(navController, animated: false) {
-                    self.dismiss(animated: false, completion: nil)
+                self.dismiss(animated: false) {
+                    self.present(navController, animated: false)
                 }
             } catch {
                 print("Failed to sign out: \(error.localizedDescription)")

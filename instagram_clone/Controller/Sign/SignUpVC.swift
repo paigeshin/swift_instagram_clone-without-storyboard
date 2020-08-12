@@ -219,6 +219,8 @@ class SignUpVC: UIViewController {
         
     }
     
+    
+    
 }
 
 extension SignUpVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
